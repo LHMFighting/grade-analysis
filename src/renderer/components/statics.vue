@@ -66,17 +66,94 @@
 <script>
 import XLSX from 'xlsx'
 import vHeader from './header'
+import index from 'vue';
 export default {
   name: 'statics',
   components: {
     vHeader
   },
   mounted () {
+    // const wb = JSON.parse(localStorage.getItem('excelWorkBook'))
+    // wb.SheetNames.forEach((sheetName) => {
+    //   const excelJson = XLSX.utils.sheet_to_json(wb.Sheets[sheetName])
+    //   console.log(excelJson);
+    //   let structure = Object.keys(Object.assign({}, excelJson[0])).map((str, index) => {
+    //     return str.split('.').map(numString => parseInt(numString))
+    //   })
+    //   structure = structure.slice(1)
+    //   console.log(structure);
+    //   const indexs = []
+    //   structure = structure.reduce((newArray, current) => {
+    //     if (current.length <= 0 ) {
+    //       return newArray
+    //     }
+
+    //     if (!indexs.includes(current[0])) {
+    //       newArray.push([])
+    //       indexs.push(current[0])
+    //     } else {
+    //       for (let i = 0; i < current.length; i++) {
+
+    //       }
+    //     }
+
+    //     return newArray
+    //   }, [])
+    //   console.log(structure);
+    // })
+
     const wb = JSON.parse(localStorage.getItem('excelWorkBook'))
     wb.SheetNames.forEach((sheetName) => {
       const excelJson = XLSX.utils.sheet_to_json(wb.Sheets[sheetName])
-      console.log(excelJson);
+      // console.log(excelJson)
+      const grades = Object.assign({}, excelJson[0])
+      delete grades['题号']
+      let structure = Object.keys(grades).slice(0)
+      structure = structure.map((str, index) => {
+        let trimStr = str.trim()
+        if (trimStr.length === 1) {
+          
+          return {
+            id: trimStr,
+            grade: 0,
+            parentId: '0',
+            children: null
+          }
+        }
+        return {
+          id: trimStr,
+          grade: 0,
+          parentId: trimStr.substring(0, trimStr.lastIndexOf('.')),
+          children: null
+        }
+      })
+      // console.log(structure)
+      let result = this.list_to_tree(structure)
+      console.log(result);
     })
+  },
+  methods: {
+    list_to_tree(list) {
+      let map = {}, node, roots = [], i;
+      for (i = 0; i < list.length; i += 1) {
+          map[list[i].id] = i; // initialize the map
+          list[i].children = []; // initialize the children
+      }
+      for (i = 0; i < list.length; i += 1) {
+          node = list[i];
+          if (node.parentId !== "0") {
+              // if you have dangling branches check that map[node.parentId] exists
+              // console.log(node.parentId);
+              // console.log(map);
+              // console.log(map[node.parentId]);
+              // console.log(list[map[node.parentId]]);
+              list[map[node.parentId]].children.push(node);
+          } else {
+              roots.push(node);
+          }
+      }
+      return roots;
+    }
   }
 }
 </script>
