@@ -48,13 +48,13 @@ export default {
 <style lang="postcss" scoped>
 
 .header {
-  margin-top: 280px;
+  margin-top: 10%;
   font-size: 25px;
   text-align: center;
 }
 
 .container {
-  margin-left: 8%;
+  margin-left: 5%;
 }
 
 .function-item {

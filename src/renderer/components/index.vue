@@ -42,13 +42,10 @@ export default {
       reader.readAsArrayBuffer(file)
     },
     process_wb (wb) {
-      wb.SheetNames.forEach((sheetName) => {
-        const excelData = XLSX.utils.sheet_to_json(wb.Sheets[sheetName])
-        localStorage.setItem('excelData', JSON.stringify(excelData))
-        this.changeIndex('2')
-        this.$router.push({
-          path: '/function'
-        })
+      localStorage.setItem('excelWorkBook', JSON.stringify(wb))
+      this.changeIndex('2')
+      this.$router.push({
+        path: '/function'
       })
     }
   }
@@ -58,7 +55,7 @@ export default {
 <style lang="css" scoped>
 
 .header {
-  margin-top: 280px;
+  margin-top: 10%;
   font-size: 25px;
   text-align: center;
 }
