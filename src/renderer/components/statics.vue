@@ -105,31 +105,42 @@ export default {
     const wb = JSON.parse(localStorage.getItem('excelWorkBook'))
     wb.SheetNames.forEach((sheetName) => {
       const excelJson = XLSX.utils.sheet_to_json(wb.Sheets[sheetName])
-      // console.log(excelJson)
-      const grades = Object.assign({}, excelJson[0])
-      delete grades['题号']
-      let structure = Object.keys(grades).slice(0)
-      structure = structure.map((str, index) => {
-        let trimStr = str.trim()
-        if (trimStr.length === 1) {
-          
+
+      const allGrades = excelJson.map((row, index) => {
+        // console.log(excelJson)
+        const grades = Object.assign({}, row)
+        delete grades['题号']
+        // console.log(grades);
+        const keys = Object.keys(grades).slice(0)
+        const result = keys.map((str, index) => {
+          let trimStr = str.trim()
+          if (trimStr.length === 1) {
+            
+            return {
+              id: trimStr,
+              grade: parseFloat(grades[str].trim()),
+              parentId: '0',
+              children: null
+            }
+          }
+          // console.log(trimStr, grades[trimStr]);
           return {
             id: trimStr,
-            grade: 0,
-            parentId: '0',
+            grade: parseFloat(grades[str].trim()),
+            parentId: trimStr.substring(0, trimStr.lastIndexOf('.')),
             children: null
           }
+        })
+        let resultRowData = []
+        try {
+          resultRowData = this.list_to_tree(result)
+        } catch (error) {
+          
         }
-        return {
-          id: trimStr,
-          grade: 0,
-          parentId: trimStr.substring(0, trimStr.lastIndexOf('.')),
-          children: null
-        }
-      })
-      // console.log(structure)
-      let result = this.list_to_tree(structure)
-      console.log(result);
+        return resultRowData
+      }).filter(item => item.length > 0)
+
+      console.log(allGrades);
     })
   },
   methods: {
