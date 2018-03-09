@@ -73,34 +73,6 @@ export default {
     vHeader
   },
   mounted () {
-    // const wb = JSON.parse(localStorage.getItem('excelWorkBook'))
-    // wb.SheetNames.forEach((sheetName) => {
-    //   const excelJson = XLSX.utils.sheet_to_json(wb.Sheets[sheetName])
-    //   console.log(excelJson);
-    //   let structure = Object.keys(Object.assign({}, excelJson[0])).map((str, index) => {
-    //     return str.split('.').map(numString => parseInt(numString))
-    //   })
-    //   structure = structure.slice(1)
-    //   console.log(structure);
-    //   const indexs = []
-    //   structure = structure.reduce((newArray, current) => {
-    //     if (current.length <= 0 ) {
-    //       return newArray
-    //     }
-
-    //     if (!indexs.includes(current[0])) {
-    //       newArray.push([])
-    //       indexs.push(current[0])
-    //     } else {
-    //       for (let i = 0; i < current.length; i++) {
-
-    //       }
-    //     }
-
-    //     return newArray
-    //   }, [])
-    //   console.log(structure);
-    // })
 
     const wb = JSON.parse(localStorage.getItem('excelWorkBook'))
     wb.SheetNames.forEach((sheetName) => {
