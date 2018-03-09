@@ -78,16 +78,23 @@ export default {
     wb.SheetNames.forEach((sheetName) => {
       const excelJson = XLSX.utils.sheet_to_json(wb.Sheets[sheetName])
 
+      // console.log(grades);
+      const temp = Object.assign({}, excelJson[0])
+      delete temp['题号']
+      const keys = Object.keys(temp).slice(0)
+      // console.log(keys);
+
       const allGrades = excelJson.map((row, index) => {
         // console.log(excelJson)
+        if (Object.keys(row).length < keys.length) {
+          return []
+        }
+
         const grades = Object.assign({}, row)
         delete grades['题号']
-        // console.log(grades);
-        const keys = Object.keys(grades).slice(0)
         const result = keys.map((str, index) => {
           let trimStr = str.trim()
           if (trimStr.length === 1) {
-            
             return {
               id: trimStr,
               grade: parseFloat(grades[str].trim()),
