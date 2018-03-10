@@ -34,27 +34,6 @@ export default {
     excelJson.forEach(function (key, i) {
       console.log(i, key);
     })
-    for (var key in sheetObj) {
-      var regex = RegExp('[A-Z]+2$');
-      var qidArr = {}
-      var firstNum = 0;
-      // if (regex.test(key)) {
-      //   // console.log(sheetObj[key].w);
-      //   var splitNum = sheetObj[key].w.split('.');
-      //   if (firstNum != splitNum[0] && !isNaN(splitNum[0])) {
-      //     firstNum = splitNum[0];
-      //     allGrade.push(student);
-      //   }
-      //   console.log('第一位数', firstNum);
-      //   console.log('分隔的数', splitNum);
-      //   console.log('是否为数字', !isNaN(splitNum[0]));
-      //   for (let i = 1; i < splitNum.length; i++) {
-      //     allGrade
-      //   }
-      // }
-
-    }
-    console.log(sheetObj.A2.w);
     wb.SheetNames.forEach((sheetName) => {
       const htmlstr = XLSX.utils.sheet_to_html(wb.Sheets[sheetName])
       this.$refs.excelHtml.innerHTML += htmlstr

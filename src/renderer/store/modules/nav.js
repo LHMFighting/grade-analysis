@@ -1,24 +1,35 @@
 import * as types from '../mutation-type'
 
 const state = {
-  activeIndex: '1'
+  activeIndex: '1',
+  allGrades: []
 }
 
 const mutations = {
- [types.CHANGE_INDEX] (state, index) {
+  [types.CHANGE_INDEX](state, index) {
     state.activeIndex = index
   },
+  [types.CHANGE_ALLGRADES] (state, allGrades) {
+    console.log(state.allGrades);
+    state.allGrades = allGrades
+  }
 }
 
 const actions = {
-  changeIndex ({ commit }, index) {
+  changeIndex({
+    commit
+  }, index) {
     // do something async
     commit(types.CHANGE_INDEX, index)
+  },
+  changeAllGrades({commit}, allGrades) {
+    commit(types.CHANGE_ALLGRADES, allGrades)
   }
 }
 
 const getters = {
-  activeIndex: state => state.activeIndex
+  activeIndex: state => state.activeIndex,
+  allGrades: state => state.allGrades
 }
 
 export default {

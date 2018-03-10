@@ -7,13 +7,14 @@ const excel = require('@/components/excel').default
 const statics = require('@/components/statics').default
 const quality = require('@/components/quality').default
 const graph = require('@/components/graph').default
+const most = require('@/components/most').default
+const average = require('@/components/average').default
 
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'index',
       component: index
@@ -31,7 +32,17 @@ export default new Router({
     {
       path: '/statics',
       name: 'statics',
-      component: statics
+      component: statics,
+      children: [{
+        path: '/most',
+        name: 'most',
+        component: most
+      }]
+    },
+    {
+      path: 'average',
+      name: 'average',
+      component: average
     },
     {
       path: '/quality',
